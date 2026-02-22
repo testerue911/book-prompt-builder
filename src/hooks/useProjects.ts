@@ -84,7 +84,27 @@ export function useProjects() {
     setProjects(prev => [dup, ...prev]);
     setActiveProjectId(dup.id);
   }, [projects]);
+  
+  const importProjectFromPack = useCallback((pack: ProjectPackV1) => {
+    setProjects((prev) => {
+      const ids = new Set(prev.map((p) => p.id));
+      const incoming = ensureUniqueProjectId(pack.project, ids);
 
+      // Se manca qualche campo (pack vecchi), garantiamo coerenza minima
+      const now = new Date().toISOString();
+      const normalized: Project = {
+        ...DEFAULT_PROJECT,
+        ...incoming,
+        createdAt: incoming.createdAt || now,
+        updatedAt: now,
+      };
+
+      setActiveProjectId(normalized.id);
+      return [normalized, ...prev];
+    });
+  }, []);
+  
+  
   return {
     projects,
     activeProject,
