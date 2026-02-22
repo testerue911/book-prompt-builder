@@ -5,6 +5,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
 import { generateBookPrompt, generateCoverPrompt, generateInteriorPrompt, generateMetadataPack } from '@/lib/prompt-generators';
 import { Download, Copy, Check, FileJson, FileText } from 'lucide-react';
+import { makePack, stringifyPack, downloadTextFile, parsePack } from "@/lib/pack";
 
 interface ExportTabProps {
   project: Project;
