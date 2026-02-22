@@ -76,14 +76,14 @@ export interface Project {
 }
 
 export const DEFAULT_PROJECT: Omit<Project, 'id' | 'createdAt' | 'updatedAt'> = {
-  title: 'Untitled Project',
-  language: 'EN',
+  title: 'Progetto Senza Titolo',
+  language: 'IT',
   bookCategory: '',
   targetAudience: '',
   usp: '',
   targetLength: '',
   tone: 'professional',
-  constraints: ['No copyrighted names', 'No brand names', 'Safe content only'],
+  constraints: ['Nessun nome protetto da copyright', 'Nessun marchio registrato', 'Solo contenuti sicuri'],
   desiredOutput: 'full chapters',
   metadata: {
     title: '',

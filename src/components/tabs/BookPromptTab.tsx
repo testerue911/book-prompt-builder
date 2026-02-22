@@ -16,6 +16,18 @@ interface BookPromptTabProps {
   onChange: (updates: Partial<Project>) => void;
 }
 
+const WRITING_STYLES = [
+  { value: 'professional', label: 'Professionale' },
+  { value: 'friendly', label: 'Amichevole' },
+  { value: 'humorous', label: 'Umoristico' },
+  { value: 'academic', label: 'Accademico' },
+  { value: 'conversational', label: 'Colloquiale' },
+  { value: 'playful', label: 'Giocoso' },
+  { value: 'minimal', label: 'Minimale' },
+  { value: 'poetic', label: 'Poetico' },
+  { value: 'custom', label: 'Personalizzato' },
+];
+
 export function BookPromptTab({ project, onChange }: BookPromptTabProps) {
   const [generatedPrompt, setGeneratedPrompt] = useState('');
   const b = project.bookPrompt;
@@ -42,20 +54,20 @@ export function BookPromptTab({ project, onChange }: BookPromptTabProps) {
     <div className="animate-fade-in space-y-6">
       <div className="grid gap-4 md:grid-cols-2">
         <div className="space-y-2">
-          <Label>Main Idea / Theme</Label>
+          <Label>Idea Principale / Tema</Label>
           <Textarea
             value={b.mainIdea}
             onChange={e => updateBook({ mainIdea: e.target.value })}
-            placeholder="What is the core idea of your book?"
+            placeholder="Qual è l'idea centrale del tuo libro?"
             className="bg-background"
           />
         </div>
         <div className="space-y-2">
-          <Label>Reader Transformation Goal</Label>
+          <Label>Obiettivo di Trasformazione del Lettore</Label>
           <Textarea
             value={b.readerTransformation}
             onChange={e => updateBook({ readerTransformation: e.target.value })}
-            placeholder="What should the reader gain after reading?"
+            placeholder="Cosa dovrebbe ottenere il lettore dopo la lettura?"
             className="bg-background"
           />
         </div>
@@ -65,47 +77,49 @@ export function BookPromptTab({ project, onChange }: BookPromptTabProps) {
         <DynamicListInput
           items={b.keyPoints}
           onChange={items => updateBook({ keyPoints: items })}
-          placeholder="Add a key point and press Enter..."
-          label="Key Points to Include"
+          placeholder="Aggiungi un punto chiave e premi Invio..."
+          label="Punti Chiave da Includere"
+          suggestions={['Esempi pratici', 'Esercizi', 'Casi studio', 'Riassunti capitolo', 'Checklist', 'Citazioni']}
         />
         <DynamicListInput
           items={b.whatToAvoid}
           onChange={items => updateBook({ whatToAvoid: items })}
-          placeholder="Add an item to avoid and press Enter..."
-          label="What to Avoid"
+          placeholder="Aggiungi un elemento da evitare e premi Invio..."
+          label="Cosa Evitare"
+          suggestions={['Gergo tecnico', 'Contenuti offensivi', 'Nomi protetti', 'Informazioni obsolete', 'Promesse irrealistiche']}
         />
       </div>
 
       <div className="grid gap-4 md:grid-cols-3">
         <div className="space-y-2">
-          <Label>Writing Style</Label>
+          <Label>Stile di Scrittura</Label>
           <Select value={b.writingStyle} onValueChange={v => updateBook({ writingStyle: v })}>
             <SelectTrigger className="bg-background"><SelectValue /></SelectTrigger>
             <SelectContent>
-              {['professional', 'friendly', 'humorous', 'academic', 'conversational', 'playful', 'minimal', 'poetic', 'custom'].map(s => (
-                <SelectItem key={s} value={s}>{s.charAt(0).toUpperCase() + s.slice(1)}</SelectItem>
+              {WRITING_STYLES.map(s => (
+                <SelectItem key={s.value} value={s.value}>{s.label}</SelectItem>
               ))}
             </SelectContent>
           </Select>
         </div>
         {b.writingStyle === 'custom' && (
           <div className="space-y-2">
-            <Label>Custom Style</Label>
-            <Input value={b.customStyle} onChange={e => updateBook({ customStyle: e.target.value })} placeholder="Describe your style..." className="bg-background" />
+            <Label>Stile Personalizzato</Label>
+            <Input value={b.customStyle} onChange={e => updateBook({ customStyle: e.target.value })} placeholder="Descrivi il tuo stile..." className="bg-background" />
           </div>
         )}
         <div className="space-y-2">
-          <Label>"Write Like…" Inspiration</Label>
-          <Input value={b.writeLikeInspiration} onChange={e => updateBook({ writeLikeInspiration: e.target.value })} placeholder="e.g. Malcolm Gladwell" className="bg-background" />
+          <Label>Ispirazione "Scrivi come…"</Label>
+          <Input value={b.writeLikeInspiration} onChange={e => updateBook({ writeLikeInspiration: e.target.value })} placeholder="es. Malcolm Gladwell" className="bg-background" />
         </div>
         <div className="space-y-2">
-          <Label>Output Format</Label>
+          <Label>Formato Output</Label>
           <Select value={b.outputFormat} onValueChange={v => updateBook({ outputFormat: v as any })}>
             <SelectTrigger className="bg-background"><SelectValue /></SelectTrigger>
             <SelectContent>
               <SelectItem value="markdown">Markdown</SelectItem>
-              <SelectItem value="structured">Structured Document</SelectItem>
-              <SelectItem value="json">JSON Outline</SelectItem>
+              <SelectItem value="structured">Documento Strutturato</SelectItem>
+              <SelectItem value="json">Schema JSON</SelectItem>
             </SelectContent>
           </Select>
         </div>
@@ -113,17 +127,17 @@ export function BookPromptTab({ project, onChange }: BookPromptTabProps) {
 
       <div className="space-y-3">
         <div className="flex items-center justify-between">
-          <Label>Chapter Structure</Label>
+          <Label>Struttura Capitoli</Label>
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-2">
               <Switch
                 checked={b.autoGenerateOutline}
                 onCheckedChange={v => updateBook({ autoGenerateOutline: v })}
               />
-              <span className="text-xs text-muted-foreground">Auto-generate outline</span>
+              <span className="text-xs text-muted-foreground">Genera schema automaticamente</span>
             </div>
             <Button size="sm" variant="outline" onClick={addChapter}>
-              <Plus className="mr-1 h-3.5 w-3.5" /> Add Chapter
+              <Plus className="mr-1 h-3.5 w-3.5" /> Aggiungi Capitolo
             </Button>
           </div>
         </div>
@@ -133,13 +147,13 @@ export function BookPromptTab({ project, onChange }: BookPromptTabProps) {
             <Input
               value={ch.title}
               onChange={e => updateChapter(i, 'title', e.target.value)}
-              placeholder="Chapter title"
+              placeholder="Titolo capitolo"
               className="flex-1 bg-background"
             />
             <Input
               value={ch.description}
               onChange={e => updateChapter(i, 'description', e.target.value)}
-              placeholder="Brief description"
+              placeholder="Breve descrizione"
               className="flex-1 bg-background"
             />
             <Button size="icon" variant="ghost" onClick={() => removeChapter(i)} className="text-muted-foreground hover:text-destructive">
@@ -150,10 +164,10 @@ export function BookPromptTab({ project, onChange }: BookPromptTabProps) {
       </div>
 
       <Button onClick={() => setGeneratedPrompt(generateBookPrompt(project))} className="w-full">
-        <Sparkles className="mr-2 h-4 w-4" /> Generate Book Prompt
+        <Sparkles className="mr-2 h-4 w-4" /> Genera Prompt Libro
       </Button>
 
-      <PromptOutput prompt={generatedPrompt} title={`${project.title}_book_prompt`} />
+      <PromptOutput prompt={generatedPrompt} title={`${project.title}_prompt_libro`} />
     </div>
   );
 }
