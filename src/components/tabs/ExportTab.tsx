@@ -3,6 +3,7 @@ import { Project } from '@/types/project';
 import { Button } from '@/components/ui/button';
 import { Textarea } from '@/components/ui/textarea';
 import { useToast } from '@/hooks/use-toast';
+import { useProjects } from "@/hooks/useProjects";
 import { generateBookPrompt, generateCoverPrompt, generateInteriorPrompt, generateMetadataPack } from '@/lib/prompt-generators';
 import { Download, Copy, Check, FileJson, FileText } from 'lucide-react';
 import { makePack, stringifyPack, downloadTextFile, parsePack } from "@/lib/pack";
@@ -14,6 +15,7 @@ interface ExportTabProps {
 export function ExportTab({ project }: ExportTabProps) {
   const [copied, setCopied] = useState<string | null>(null);
   const { toast } = useToast();
+  const { importProjectFromPack } = useProjects();
 
   const downloadFile = (content: string, filename: string) => {
     const blob = new Blob([content], { type: 'text/plain' });
