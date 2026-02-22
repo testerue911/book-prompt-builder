@@ -114,5 +114,6 @@ export function useProjects() {
     updateProject,
     deleteProject,
     duplicateProject,
+    importProjectFromPack,
   };
 }
