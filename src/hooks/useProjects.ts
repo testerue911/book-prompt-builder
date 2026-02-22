@@ -1,5 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Project, DEFAULT_PROJECT } from '@/types/project';
+import type { ProjectPackV1 } from "@/lib/pack";
+import { ensureUniqueProjectId } from "@/lib/pack";
 
 const STORAGE_KEY = 'kdp-prompt-builder-projects';
 const ACTIVE_KEY = 'kdp-prompt-builder-active';
