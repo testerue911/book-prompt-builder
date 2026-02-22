@@ -42,6 +42,44 @@ export function ExportTab({ project }: ExportTabProps) {
 
   const metadataPack = generateMetadataPack(project);
 
+  const bookPromptText = generateBookPrompt(project);
+  const coverPromptText = generateCoverPrompt(project);
+  const interiorPromptText = generateInteriorPrompt(project);
+
+  const promptsSnapshot = {
+    book: bookPromptText || "",
+    cover: coverPromptText || "",
+    interior: interiorPromptText || "",
+  };
+
+  const downloadProjectPack = () => {
+    const pack = makePack(project, promptsSnapshot);
+
+    const safeName = (project.title || "project")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/(^-|-$)/g, "");
+
+    const json = stringifyPack(pack);
+    downloadTextFile(`project_pack_${safeName}.json`, json, "application/json");
+    toast({ title: "Scaricato!", description: `project_pack_${safeName}.json` });
+  };
+
+  const importProjectPackFile = async (file: File) => {
+    try {
+      const text = await file.text();
+      const pack = parsePack(text);
+      importProjectFromPack(pack);
+      toast({ title: "Import completato!", description: pack.project.title || pack.project.name });
+    } catch (e: any) {
+      toast({
+        title: "Import fallito",
+        description: e?.message || "File non valido",
+        variant: "destructive",
+      });
+    }
+  };
+  
   return (
     <div className="animate-fade-in space-y-6">
       <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
@@ -60,6 +98,10 @@ export function ExportTab({ project }: ExportTabProps) {
         <Button variant="outline" className="h-auto flex-col gap-2 p-4" onClick={() => downloadFile(generateInteriorPrompt(project), `${project.title}_interno.txt`)}>
           <FileText className="h-6 w-6 text-primary" />
           <span className="text-xs font-medium">Prompt Interno .txt</span>
+        </Button>
+        <Button variant="outline" className="h-auto flex-col gap-2 p-4" onClick={downloadProjectPack}>
+          <Download className="h-6 w-6 text-primary" />
+          <span className="text-xs font-medium">Download Project Pack (.json)</span>
         </Button>
       </div>
 
