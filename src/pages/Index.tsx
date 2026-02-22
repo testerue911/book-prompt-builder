@@ -39,26 +39,24 @@ const Index = () => {
     localStorage.setItem('kdp-dark-mode', String(darkMode));
   }, [darkMode]);
 
-  // Autosave debounce
   const [saveTimer, setSaveTimer] = useState<NodeJS.Timeout | null>(null);
   const handleProjectChange = useCallback((updates: Partial<Project>) => {
     if (!activeProjectId) return;
     updateProject(activeProjectId, updates);
     if (saveTimer) clearTimeout(saveTimer);
     const timer = setTimeout(() => {
-      toast({ title: '💾 Saved', description: 'Changes auto-saved.' });
+      toast({ title: '💾 Salvato', description: 'Modifiche salvate automaticamente.' });
     }, 1500);
     setSaveTimer(timer);
   }, [activeProjectId, updateProject, saveTimer, toast]);
 
   const handleRename = (id: string, title: string) => {
     updateProject(id, { title });
-    toast({ title: 'Renamed!' });
+    toast({ title: 'Rinominato!' });
   };
 
   return (
     <div className="flex h-screen w-full overflow-hidden bg-background">
-      {/* Mobile sidebar toggle */}
       <Button
         variant="ghost"
         size="icon"
@@ -68,7 +66,6 @@ const Index = () => {
         {sidebarOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
       </Button>
 
-      {/* Sidebar */}
       <div className={`fixed inset-y-0 left-0 z-40 transition-transform lg:relative lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}>
         <ProjectSidebar
           projects={projects}
@@ -81,26 +78,24 @@ const Index = () => {
         />
       </div>
 
-      {/* Overlay for mobile */}
       {sidebarOpen && (
         <div className="fixed inset-0 z-30 bg-foreground/20 lg:hidden" onClick={() => setSidebarOpen(false)} />
       )}
 
-      {/* Main content */}
       <div className="flex-1 overflow-y-auto scrollbar-thin">
         {!activeProject ? (
           <div className="flex h-full items-center justify-center">
             <div className="text-center space-y-4 animate-fade-in max-w-md">
               <BookOpen className="mx-auto h-16 w-16 text-primary/40" />
               <h1 className="font-display text-3xl font-bold text-foreground">Amazon Book Prompt Builder</h1>
-              <p className="text-muted-foreground">Create structured AI prompts for your Amazon KDP books. Start by creating a new project or selecting a template.</p>
+              <p className="text-muted-foreground">Crea prompt AI strutturati per i tuoi libri Amazon KDP. Inizia creando un nuovo progetto o selezionando un modello.</p>
               <div className="flex gap-2 justify-center">
                 <Button onClick={() => createProject()}>
-                  New Project
+                  Nuovo Progetto
                 </Button>
                 <Button variant="outline" onClick={() => setDarkMode(!darkMode)}>
                   {darkMode ? <Sun className="mr-2 h-4 w-4" /> : <Moon className="mr-2 h-4 w-4" />}
-                  {darkMode ? 'Light' : 'Dark'} Mode
+                  Modalità {darkMode ? 'Chiara' : 'Scura'}
                 </Button>
               </div>
             </div>
@@ -111,7 +106,7 @@ const Index = () => {
               <div>
                 <h1 className="font-display text-2xl font-bold text-foreground">{activeProject.title}</h1>
                 <p className="text-sm text-muted-foreground">
-                  {activeProject.bookCategory || 'No category'} · {activeProject.language} · Last updated {new Date(activeProject.updatedAt).toLocaleDateString()}
+                  {activeProject.bookCategory || 'Nessuna categoria'} · {activeProject.language} · Ultimo aggiornamento {new Date(activeProject.updatedAt).toLocaleDateString('it-IT')}
                 </p>
               </div>
               <Button variant="ghost" size="icon" onClick={() => setDarkMode(!darkMode)}>
@@ -122,22 +117,22 @@ const Index = () => {
             <Tabs defaultValue="settings" className="space-y-4">
               <TabsList className="flex-wrap h-auto gap-1 bg-muted p-1">
                 <TabsTrigger value="settings" className="gap-1.5 text-xs">
-                  <Settings className="h-3.5 w-3.5" /> Settings
+                  <Settings className="h-3.5 w-3.5" /> Impostazioni
                 </TabsTrigger>
                 <TabsTrigger value="book" className="gap-1.5 text-xs">
-                  <BookOpen className="h-3.5 w-3.5" /> Book Prompt
+                  <BookOpen className="h-3.5 w-3.5" /> Prompt Libro
                 </TabsTrigger>
                 <TabsTrigger value="cover" className="gap-1.5 text-xs">
-                  <Palette className="h-3.5 w-3.5" /> Cover Prompt
+                  <Palette className="h-3.5 w-3.5" /> Prompt Copertina
                 </TabsTrigger>
                 <TabsTrigger value="interior" className="gap-1.5 text-xs">
-                  <Layout className="h-3.5 w-3.5" /> Interior Prompt
+                  <Layout className="h-3.5 w-3.5" /> Prompt Interno
                 </TabsTrigger>
                 <TabsTrigger value="references" className="gap-1.5 text-xs">
-                  <Image className="h-3.5 w-3.5" /> References
+                  <Image className="h-3.5 w-3.5" /> Riferimenti
                 </TabsTrigger>
                 <TabsTrigger value="export" className="gap-1.5 text-xs">
-                  <Download className="h-3.5 w-3.5" /> Export
+                  <Download className="h-3.5 w-3.5" /> Esporta
                 </TabsTrigger>
               </TabsList>
 

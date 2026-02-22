@@ -53,7 +53,7 @@ export function ProjectSidebar({
     const t = TEMPLATES[index];
     onCreate(t.data);
     setTemplateOpen(false);
-    toast({ title: 'Template loaded', description: `"${t.name}" template applied.` });
+    toast({ title: 'Modello caricato', description: `Modello "${t.name}" applicato.` });
   };
 
   const startRename = (p: Project) => {
@@ -81,7 +81,7 @@ export function ProjectSidebar({
           <Input
             value={search}
             onChange={e => setSearch(e.target.value)}
-            placeholder="Search projects..."
+            placeholder="Cerca progetti..."
             className="h-8 bg-sidebar-accent pl-8 text-xs text-sidebar-accent-foreground placeholder:text-muted-foreground border-sidebar-border"
           />
         </div>
@@ -93,17 +93,17 @@ export function ProjectSidebar({
           onClick={handleCreate}
           className="flex-1 bg-sidebar-primary text-sidebar-primary-foreground hover:bg-sidebar-primary/90 text-xs"
         >
-          <Plus className="mr-1 h-3.5 w-3.5" /> New
+          <Plus className="mr-1 h-3.5 w-3.5" /> Nuovo
         </Button>
         <Dialog open={templateOpen} onOpenChange={setTemplateOpen}>
           <DialogTrigger asChild>
             <Button size="sm" variant="outline" className="flex-1 border-sidebar-border text-sidebar-foreground hover:bg-sidebar-accent text-xs">
-              Templates
+              Modelli
             </Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle className="font-display">Start from Template</DialogTitle>
+              <DialogTitle className="font-display">Inizia da un Modello</DialogTitle>
             </DialogHeader>
             <div className="grid gap-2">
               {TEMPLATES.map((t, i) => (
@@ -124,7 +124,7 @@ export function ProjectSidebar({
       <div className="flex-1 overflow-y-auto scrollbar-thin px-2">
         {filtered.length === 0 && (
           <p className="px-2 py-4 text-center text-xs text-muted-foreground">
-            {projects.length === 0 ? 'Create your first project!' : 'No projects found.'}
+            {projects.length === 0 ? 'Crea il tuo primo progetto!' : 'Nessun progetto trovato.'}
           </p>
         )}
         {filtered.map(p => (
@@ -152,7 +152,7 @@ export function ProjectSidebar({
                 <>
                   <div className="truncate text-xs font-medium">{p.title}</div>
                   <div className="truncate text-[10px] text-muted-foreground">
-                    {p.bookCategory || 'No category'} · {p.language}
+                    {p.bookCategory || 'Nessuna categoria'} · {p.language}
                   </div>
                 </>
               )}
@@ -164,15 +164,15 @@ export function ProjectSidebar({
                 </button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-36">
-                <DropdownMenuItem onClick={() => startRename(p)}>Rename</DropdownMenuItem>
-                <DropdownMenuItem onClick={() => { onDuplicate(p.id); toast({ title: 'Duplicated!' }); }}>
-                  <Copy className="mr-2 h-3.5 w-3.5" /> Duplicate
+                <DropdownMenuItem onClick={() => startRename(p)}>Rinomina</DropdownMenuItem>
+                <DropdownMenuItem onClick={() => { onDuplicate(p.id); toast({ title: 'Duplicato!' }); }}>
+                  <Copy className="mr-2 h-3.5 w-3.5" /> Duplica
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   className="text-destructive focus:text-destructive"
-                  onClick={() => { onDelete(p.id); toast({ title: 'Deleted!' }); }}
+                  onClick={() => { onDelete(p.id); toast({ title: 'Eliminato!' }); }}
                 >
-                  <Trash2 className="mr-2 h-3.5 w-3.5" /> Delete
+                  <Trash2 className="mr-2 h-3.5 w-3.5" /> Elimina
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

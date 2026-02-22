@@ -36,7 +36,7 @@ export function ReferencesTab({ project, onChange }: ReferencesTabProps) {
       };
       reader.readAsDataURL(file);
     });
-    toast({ title: 'Images added!' });
+    toast({ title: 'Immagini aggiunte!' });
   };
 
   const updateImage = (id: string, updates: Partial<ReferenceImage>) => {
@@ -49,7 +49,7 @@ export function ReferencesTab({ project, onChange }: ReferencesTabProps) {
 
   const removeImage = (id: string) => {
     onChange({ referenceImages: project.referenceImages.filter(img => img.id !== id) });
-    toast({ title: 'Image removed.' });
+    toast({ title: 'Immagine rimossa.' });
   };
 
   const handleDrop = (e: React.DragEvent) => {
@@ -69,9 +69,9 @@ export function ReferencesTab({ project, onChange }: ReferencesTabProps) {
         }`}
       >
         <ImageIcon className="h-10 w-10 text-muted-foreground" />
-        <p className="text-sm text-muted-foreground">Drag & drop images here, or</p>
+        <p className="text-sm text-muted-foreground">Trascina e rilascia le immagini qui, oppure</p>
         <Button variant="outline" onClick={() => fileRef.current?.click()}>
-          <Upload className="mr-2 h-4 w-4" /> Choose Files
+          <Upload className="mr-2 h-4 w-4" /> Scegli File
         </Button>
         <input
           ref={fileRef}
@@ -84,7 +84,7 @@ export function ReferencesTab({ project, onChange }: ReferencesTabProps) {
       </div>
 
       {project.referenceImages.length === 0 && (
-        <p className="text-center text-sm text-muted-foreground py-8">No reference images yet. Upload images to include them in your prompts.</p>
+        <p className="text-center text-sm text-muted-foreground py-8">Nessuna immagine di riferimento. Carica immagini per includerle nei tuoi prompt.</p>
       )}
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -93,7 +93,7 @@ export function ReferencesTab({ project, onChange }: ReferencesTabProps) {
             <div className="relative aspect-video bg-muted">
               <img src={img.dataUrl} alt={img.name} className="h-full w-full object-cover" />
               {img.isPrimary && (
-                <Badge className="absolute left-2 top-2 bg-primary text-primary-foreground">Primary</Badge>
+                <Badge className="absolute left-2 top-2 bg-primary text-primary-foreground">Principale</Badge>
               )}
             </div>
             <div className="space-y-3 p-3">
@@ -103,19 +103,20 @@ export function ReferencesTab({ project, onChange }: ReferencesTabProps) {
                 className="text-xs font-medium bg-background"
               />
               <div className="space-y-1">
-                <Label className="text-xs">Notes</Label>
+                <Label className="text-xs">Note</Label>
                 <Textarea
                   value={img.notes}
                   onChange={e => updateImage(img.id, { notes: e.target.value })}
-                  placeholder="What to replicate from this image..."
+                  placeholder="Cosa replicare da questa immagine..."
                   className="text-xs bg-background min-h-[60px]"
                 />
               </div>
               <DynamicListInput
                 items={img.tags}
                 onChange={tags => updateImage(img.id, { tags })}
-                placeholder="Add tag..."
-                label="Tags"
+                placeholder="Aggiungi tag..."
+                label="Tag"
+                suggestions={['Stile', 'Colori', 'Layout', 'Tipografia', 'Illustrazione']}
               />
               <div className="flex gap-1.5">
                 <Button
@@ -125,7 +126,7 @@ export function ReferencesTab({ project, onChange }: ReferencesTabProps) {
                   className="flex-1 text-xs"
                 >
                   {img.isPrimary ? <Star className="mr-1 h-3 w-3" /> : <StarOff className="mr-1 h-3 w-3" />}
-                  {img.isPrimary ? 'Primary' : 'Set Primary'}
+                  {img.isPrimary ? 'Principale' : 'Imposta Principale'}
                 </Button>
                 <Button size="sm" variant="outline" onClick={() => removeImage(img.id)} className="text-destructive hover:text-destructive">
                   <Trash2 className="h-3 w-3" />
