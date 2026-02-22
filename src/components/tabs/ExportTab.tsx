@@ -105,6 +105,21 @@ export function ExportTab({ project }: ExportTabProps) {
         </Button>
       </div>
 
+      <div className="flex flex-wrap items-center gap-3">
+        <label className="text-xs font-medium text-muted-foreground">
+          Import Project Pack (.json)
+        </label>
+        <input
+          type="file"
+          accept="application/json"
+          onChange={(e) => {
+            const f = e.target.files?.[0];
+            if (f) importProjectPackFile(f);
+            e.currentTarget.value = "";
+          }}
+        />
+      </div>
+      
       <div className="rounded-lg border bg-card p-4 space-y-3">
         <div className="flex items-center justify-between">
           <h3 className="font-display text-lg font-semibold">Pacchetto Metadati KDP</h3>
